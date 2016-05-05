@@ -71,8 +71,7 @@ if __name__ == '__main__' :
         namelist.append(cultName)
         dist = hamdist(vcfintseq, cultSeq)/float(len(intersection))
         distlist.append(dist)
-        if args.v :
-            print '{}\t{:.3f}'.format(cultName, dist)
+        print '{}\t{:.3f}'.format(cultName, dist)
 
     rank = argsort(distlist)
 
@@ -80,7 +79,7 @@ if __name__ == '__main__' :
     with open(unknownName+'.dist', 'w') as f :
         print '# unknown cultivar provided in {}\n'.format(args.vcffname)
         print '# compared against database in {}\n'.format(args.plinkfname)
-        print '# intersect\tunknown\tdatabase\n{}\t{}\t{}\n'.format(len(intersection),len(vcfpos),len(mappos))
+        print '# intersect\tunknown\tdatabase\n{}\t{}\t{}\n'.format(len(intersection),len(vcfpos),len(plinkpos))
         for i in range(3) :
             print '# {}\t{:.3f}\t{} \n'.format(i+1, distlist[rank[i]], namelist[rank[i]])
     
