@@ -35,7 +35,7 @@ if __name__ == '__main__' :
     parser = argparse.ArgumentParser() 
     parser.add_argument('plinkfname', help="plink file basename for the database")
     parser.add_argument('vcffname', help="vcf file for the unkown cultivar")
-    parser.add_argument('-v', help="print as you calculate",
+    parser.add_argument('-v', help="verbose mode, print as you calculate",
                     action="store_true")
 
     args=parser.parse_args()
@@ -72,19 +72,15 @@ if __name__ == '__main__' :
         dist = hamdist(vcfintseq, cultSeq)/float(len(intersection))
         distlist.append(dist)
         if args.v :
-            print cultName, dist
+            print '{}\t{:.3f}'.format(cultName, dist)
 
     rank = argsort(distlist)
 
     # write distance list
     with open(unknownName+'.dist', 'w') as f :
-        f.write( '# unknown cultivar provided in {}\n'.format(args.vcffname))
-        f.write( '# compared against database in {}\n'.format(args.plinkfname))
-        f.write( '# intersect\tunknown\tdatabase\n{}\t{}\t{}\n'.format(len(intersection),len(vcfpos),len(mappos)))
+        print '# unknown cultivar provided in {}\n'.format(args.vcffname)
+        print '# compared against database in {}\n'.format(args.plinkfname)
+        print '# intersect\tunknown\tdatabase\n{}\t{}\t{}\n'.format(len(intersection),len(vcfpos),len(mappos))
         for i in range(3) :
-            f.write( '# {}\t{:.3f}\t{} \n'.format(i+1, distlist[rank[i]], namelist[rank[i]]))
-        for name, dist in izip(namelist,distlist) :
-            f.write('{}\t{:.3f}\n'.format(name, dist) )
-
-    # print some stats
+            print '# {}\t{:.3f}\t{} \n'.format(i+1, distlist[rank[i]], namelist[rank[i]])
     
