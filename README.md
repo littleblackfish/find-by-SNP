@@ -22,7 +22,6 @@ It can be generally used given that one has
 The python script identify.py will parse only the homozygous SNPs from the vcf and calculate the hamming distance for each cultivar in the database.
 It will then report the normalized hamming distances for each sample in the database.
 Normalization is done by the number of (homozygous) SNPs that exist both in the unknown vcf and the database, which is also reported in the output.  
-The last three lines of the output will be the best three matches and associated hamming distances. 
 
 ### Usage
 
@@ -45,3 +44,9 @@ $ src/identify.py data/NB-core_v4 unknown.vcf > log.dat
 
 ```
 
+### Output 
+
+The first 3 lines are runtime status logs, followed by n lines of lable, hammingdist pairs where n is the number of individuals in the map/ped fileset. 
+After finishing the distance list, the code will report the exact input paths and number of snps for reference. 
+The last three lines of the output will be the best three matches and associated hamming distances, reported for convenience.
+If one needs to parse the complete name-distance list, this can easily be done by ignoring lines that start with #. 
