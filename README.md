@@ -15,12 +15,16 @@ The code is provided here as a general tool, it can be used to identify an indif
     * numpy
     * pyvcf 
 
-### Mechanism 
+### Algorithm
 
-The python script identify.py will parse only the homozygous SNPs from the vcf and calculate the hamming distance for each cultivar in the database.
-It will then report the normalized hamming distances for each sample in the database.
-Normalization is done by the number of (homozygous) SNPs that exist both in the unknown vcf and the database, which is also reported in the output.  
+This program will : 
 
+1. Parse the *homozygous* SNPs from both the vcf and the map/ped dataset
+2. Find those SNP positions that exist in both the unknown individual and the dataset
+3. Create SNP-sequences based on those intersecting positions
+4. Calculate and report the normalized hamming distances between the unknown individual and each sample in the dataset
+
+Normalization is done by the size of intersection, that is the number of (homozygous) SNPs that exist both in the unknown vcf and the dataset, which is also reported in the output.  
 
 ### Data
 
@@ -77,7 +81,7 @@ The last three lines of the output will be the best three matches and associated
 A quick way of removing the comments from the output file :
 
 ```
-awk '$1 != "#" ' log.dat >log-comment.dat
+awk '$1 != "#" ' log.dat >log-nocomment.dat
 ```
 
 A quick way of sorting the resulting a file would be :
