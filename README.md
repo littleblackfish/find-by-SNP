@@ -14,9 +14,6 @@ The code is provided here as a general tool, it can be used to identify an indif
   * A working python (2) installation including libraries
     * numpy
     * pyvcf 
-  * [SNP data based on 3krg project] (http://oryzasnp-atcg-irri-org.s3-website-ap-southeast-1.amazonaws.com/) is what we originally use this with and can be downloaded in map/ped format
-    * The makefile in the data folder will donload and checksum these for you
-  * [PLINK 1.9](https://www.cog-genomics.org/plink2/) can be used to convert any other vcf formatted SNP data to map/ped format required for the workflow
 
 ### Mechanism 
 
@@ -27,7 +24,7 @@ Normalization is done by the number of (homozygous) SNPs that exist both in the 
 
 ### Data
 
-To download the SNP-Seek database one can make use of the makefile in the data folder. 
+To download various SNP-Seek datasets, one can make use of the makefile in the data folder. 
 
 ```
 $ cd data
@@ -35,7 +32,7 @@ $ make NB-core_v4  	# for NB-core dataset
 $ make 3krg_filt_snp_v4 # for (larger) 3krg_filt dataset
 ```
 
-For detailed description of these datasets please refer to the [SNP-Seek paper](http://nar.oxfordjournals.org/content/43/D1/D1023.full) and the respective [download page](http://oryzasnp-atcg-irri-org.s3-website-ap-southeast-1.amazonaws.com/)
+For detailed description of these datasets please refer to the [SNP-Seek paper](http://nar.oxfordjournals.org/content/43/D1/D1023.full) and the respective [download page](http://oryzasnp-atcg-irri-org.s3-website-ap-southeast-1.amazonaws.com/).
 These downloads are provided for reproducibility purposes and validated by SHA checksums. 
 One can substitute any other PLINK formatted (map/ped) dataset or convert a vcf-based dataset to map/ped format via [PLINK](https://www.cog-genomics.org/plink2/).
 Please refer to the PLINK documentation for details on this process. 
@@ -49,7 +46,7 @@ Please note that for both pieces of data, we are only making use of homozygous S
 
 #### Running
 
-The python script identify.py is the backbone of this tool, it has 2 required positional arguments. The identifier will take in 
+The python script identify.py is the backbone of this tool, it requires 2 positional arguments. It will take in 
 
 1. the **map/ped base file path** and look for a %.map/%.ped or %.map.gz/%.ped.gz file pair in the specified path.  
 2. the **unknown sample vcf file** path
@@ -74,4 +71,32 @@ The non-comment lines consist of a cultivar name and a normalized hamming distan
 After the distance list, the program will report the exact input paths and number of snps for reference. 
 Note that the hamming distances are normalized by the number of SNPs in the intersection of unknown cultivar and the database. 
 The last three lines of the output will be the best three matches and associated hamming distances, reported for convenience.
+
+#### Sorting
+
+A quick way of removing the comments from the output file :
+
+'''
+awk '$1 != "#" ' log.dat >log-comment.dat
+'''
+
+A quick way of sorting the resulting a file would be :
+
+
+'''
+sort -k 2 -n log-comment.dat >sorted.dat
+'''
+
+And of course, these could be chained such as :
+
+'''
+awk '$1 != "#" ' log.dat | sort -k 2 -n > sorted.dat
+'''
+
+which will remove comments and sort the list by distance at once. 
+
+
+
+
+
 
