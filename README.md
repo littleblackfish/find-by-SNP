@@ -76,22 +76,22 @@ The last three lines of the output will be the best three matches and associated
 
 A quick way of removing the comments from the output file :
 
-'''
+```
 awk '$1 != "#" ' log.dat >log-comment.dat
-'''
+```
 
 A quick way of sorting the resulting a file would be :
 
 
-'''
+```
 sort -k 2 -n log-comment.dat >sorted.dat
-'''
+```
 
 And of course, these could be chained such as :
 
-'''
+```
 awk '$1 != "#" ' log.dat | sort -k 2 -n > sorted.dat
-'''
+```
 
 which will remove comments and sort the list by distance at once. 
 
