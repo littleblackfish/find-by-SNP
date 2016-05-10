@@ -95,7 +95,7 @@ Additionally, one can specify a range and an output file.
 
 ```
 $ src/identify.py data/NB-core_v4 -name B007-range 4 100000 500000 -out distances.dat
-
+```
 
 #### Output
 
