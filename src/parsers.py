@@ -100,6 +100,7 @@ def ped_iterator(pedfile, index=None) :
 
 def ped_find_cultivar( pedfile , cultivar ) :
     print '# Parsing PED file :', pedfile.name
+    pedfile.seek(0)
     
     for line in pedfile :
         if line[:len(cultivar)] == cultivar :
@@ -108,6 +109,8 @@ def ped_find_cultivar( pedfile , cultivar ) :
 
             pedfile.seek(0)
             return name, seq
+
+    raise KeyError('Sample name cannot be found in the PED file.')
 
 # parses a ped file 
 # puts it in a '|S1' numpy array
@@ -143,6 +146,7 @@ def ped_parser_homo(pedfile, nrows=3023, index=None) :
 # better vcf parser using pyvcf
 
 def vcf_homo_snp (vcffile, minQual=50) : 
+    print '# Parsing vcf file : {}'.format(vcffile.name)
     reader = vcf.Reader(vcffile) 
 
     nsamples = len(reader.samples)
